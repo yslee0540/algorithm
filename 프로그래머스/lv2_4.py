@@ -43,3 +43,30 @@ while sc[0] < K:
       print(-1)
       break
 print(answer)
+
+#모음사전(중복순열)
+# from itertools import product
+# words = []
+# for i in range(1, 6):
+#   for j in product(['A', 'E', 'I', 'O', 'U'], repeat=i):
+#     words.append(''.join(j))
+# words.sort()
+# print(words)
+
+#방문 길이
+dirs = "ULURRDLLU"
+d = set()
+y, x = 0, 0
+udrl = {'U': (1, 0), 'D': (-1, 0), 'R': (0, 1), 'L': (0, -1)}
+
+for dir in dirs:
+  dy, dx = udrl[dir]
+  ny = y + dy
+  nx = x + dx
+  if -5 <= ny <= 5 and -5 <= nx <= 5:
+    d.add(((x, y), (nx, ny)))
+    d.add(((nx, ny), (x, y)))
+    y = ny
+    x = nx
+print(d)
+print(len(d) // 2)
