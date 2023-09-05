@@ -43,3 +43,63 @@ def change_num(x, y, n):
 
   return -1
 print(change_num(10, 70, 5))
+
+#전력망을 둘로 나누기
+from collections import deque
+def bfs(graph, start, visited):
+  q = deque([start])
+  visited[start] = True
+  cnt = 0
+  
+  while q:
+    v = q.popleft()
+    cnt += 1
+    for i in graph[v]:
+      if not visited[i]:
+        q.append(i)
+        visited[i] = True
+  return cnt
+
+def divide_wire(n, wires):
+  answer = n - 2
+  for i in range(len(wires)):
+    tmp = wires.copy()
+    graph = [[] for i in range(n+1)]
+    visited = [False] * (n+1)
+    tmp.pop(i)
+    for wire in tmp:
+      x, y = wire
+      graph[x].append(y)
+      graph[y].append(x)
+    
+    for idx, g in enumerate(graph):
+      if g != []:
+        start = idx
+        break
+         
+    cnt = bfs(graph, start, visited)
+    if abs(n - 2 * cnt) < answer:
+        answer = abs(n - 2 * cnt)
+  return answer
+
+wires = [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]
+# print(divide_wire(9, wires))
+
+#줄 서는 방법(순열)
+import math
+def arrange(n, k):
+  answer = []
+  n_list = [i for i in range(1, n + 1)]
+  k -= 1
+  
+  while n_list:
+    a = k // math.factorial(n - 1)
+    answer.append(n_list[a])
+    del n_list[a]
+
+    k = k % math.factorial(n - 1)
+    n -= 1
+  
+  return answer
+
+print(arrange(3, 5))
