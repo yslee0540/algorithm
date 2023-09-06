@@ -103,3 +103,46 @@ def arrange(n, k):
   return answer
 
 print(arrange(3, 5))
+
+#배달(다익스트라)
+import heapq
+
+def delivery(N, road, K):
+  answer = 0
+  
+  graph = [[] for _ in range(N+1)]
+  distance = [500001] * (N+1)
+  
+  for r in road:
+    x, y, c = r
+    graph[x].append((y, c))
+    graph[y].append((x, c))
+  
+  q = []
+  heapq.heappush(q, (0, 1))
+  distance[1] = 0
+
+  while q:
+    dist, now = heapq.heappop(q)
+    if distance[now] < dist:
+      continue
+    for i in graph[now]:
+      hr = dist + i[1]
+      if hr < distance[i[0]]:
+        distance[i[0]] = hr
+        heapq.heappush(q, (hr, i[0]))
+  
+  for d in distance:
+    if d <= K:
+      answer += 1
+  return answer
+
+road = [[1,2,1],[2,3,3],[5,2,2],[1,4,2],[5,3,1],[5,4,2]]
+print(delivery(5, road, 3))
+
+#최대공약수
+def gcd(a, b):
+  r = b % a
+  if r == 0:
+      return a
+  return gcd(r, a)
