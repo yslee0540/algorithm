@@ -107,3 +107,29 @@ def ricochet(board):
 
 board = ["...D..R", ".D.G...", "....D.D", "D....D.", "..D...."]
 print(ricochet(board))
+
+#후보키
+from itertools import combinations
+def candidate(relation):
+  row = len(relation)
+  col = len(relation[0])
+  
+  combi = []
+  for i in range(1, col+1):
+    combi.extend(combinations(range(col), i))
+    
+  unique = []
+  for c in combi:
+    tmp = [tuple([item[i] for i in c]) for item in relation]
+    if len(set(tmp)) == row:
+      unique.append(c)
+  
+  answer = set(unique)
+  for i in range(len(unique)):
+    for j in range(i+1, len(unique)):
+      if len(unique[i]) == len(set(unique[i]) & set(unique[j])):
+        answer.discard(unique[j])
+  return len(answer)
+
+relation = [["100","ryan","music","2"],["200","apeach","math","2"],["300","tube","computer","3"],["400","con","computer","4"],["500","muzi","music","3"],["600","apeach","music","2"]]
+print(candidate(relation))
